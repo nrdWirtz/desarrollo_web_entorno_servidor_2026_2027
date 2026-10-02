@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Películas</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <!-- Introducimos fragmento  declarado en templates/fragments/volver.html-->
+    <div th:replace="~{fragments/volver :: volverInicio}"></div>
+    <h1>Listado de películas</h1>
+    <div th:if="${peliculas.size() > 0}">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Director</th>
+                    <th>Año</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="peli: ${peliculas}">
+                    <td th:text="${peli.name}"></td>
+                    <td th:text="${peli.director}"></td>
+                    <td th:text="${peli.year}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:unless="${peliculas.size() > 0}">
+        <p>No hay películas en nuestro catálogo</p>
+    </div>
+</body>
+</html>

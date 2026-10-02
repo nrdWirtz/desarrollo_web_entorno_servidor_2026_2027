@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Series</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <h1>Listado de series</h1>
+    <ul>
+        <li th:each="serie: ${series}">
+            <span th:text="${serie.title}">Nombre serie</span>
+            <span> - </span>
+            <span th:text="'Temporadas: ' + ${serie.seasons}">temporadas </span>
+        </li>
+    </ul>
+    <div th:replace="~{fragments/volver :: volverInicio}"></div>
+</body>
+</html>
