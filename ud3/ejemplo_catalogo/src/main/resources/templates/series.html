@@ -7,6 +7,7 @@
 </head>
 <body>
     <h1>Listado de series</h1>
+    <a class="btn" th:href="@{/series/nueva}">+ Nueva serie</a>
     <ul>
         <li th:each="serie: ${series}">
             <span th:text="${serie.title}">Nombre serie</span>

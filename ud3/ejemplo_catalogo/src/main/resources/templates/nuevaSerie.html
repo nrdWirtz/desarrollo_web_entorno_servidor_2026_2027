@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nueva serie</title>
+</head>
+<body>
+<div class="form-card">
+    <h1>Crear nueva serie</h1>
+
+    <form th:action="@{/tvshows}" th:object="${serieDTO}" method="post">
+        <div class="campo">
+            <label for="title">Título</label>
+            <input type="text" id="title" th:field="*{title}">
+            <div class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+        </div>
+
+        <div class="campo">
+            <label for="seasons">Temporadas</label>
+            <input type="number" id="seasons" th:field="*{seasons}" min="1">
+            <div class="error" th:if="${#fields.hasErrors('seasons')}" th:errors="*{seasons}"></div>
+        </div>
+
+        <div class="acciones">
+            <button type="submit" class="btn">Guardar</button>
+            <a class="btn btn-sec" th:href="@{/series}">Cancelar</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

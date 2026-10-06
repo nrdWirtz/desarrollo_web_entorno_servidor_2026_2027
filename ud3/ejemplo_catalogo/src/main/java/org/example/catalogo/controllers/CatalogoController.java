@@ -1,12 +1,13 @@
 package org.example.catalogo.controllers;
 
+import jakarta.validation.Valid;
 import org.example.catalogo.model.Movie;
 import org.example.catalogo.model.TvShow;
+import org.example.catalogo.model.dtos.TvShowDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +45,24 @@ public class CatalogoController {
     public String paginaSeries(Model model){
         model.addAttribute("series", tvShowList);
         return "series";
+    }
+
+    @PostMapping("/tvshows")
+    public String crearSerie(@Valid @ModelAttribute("serieDTO") TvShowDTO serieDTO, BindingResult result) {
+        if (result.hasErrors()) { //si hay errores de validación
+            return "nuevaSerie"; // vuelve a la página del formulario para mostrar lo errores, no se creaa la nueva serie
+        }
+
+        int nuevoId = tvShowList.stream().mapToInt(TvShow::getId).max().orElse(0) + 1;
+        tvShowList.add(new TvShow(nuevoId, serieDTO.getTitle(), serieDTO.getSeasons()));
+
+        return "redirect:/series"; // evita reenviar el formulario al recargar
+    }
+
+    @GetMapping("/series/nueva")
+    public String paginaCrearSerie(Model model) {
+        model.addAttribute("serieDTO", new TvShowDTO());
+        return "nuevaSerie";
     }
 
     private void inicializarPeliculas(){
