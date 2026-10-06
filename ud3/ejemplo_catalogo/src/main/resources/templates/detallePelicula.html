@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle Película</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<article class="detalle">
+    <h1 th:text="${pelicula.getName()}"></h1>
+    <p class="director" th:text="${pelicula.getDirector()}"></p>
+
+    <p><strong>Año:</strong> <span th:text="${pelicula.getYear()}"></span></p>
+    <p><strong>Calificación:</strong> <span class="badge" th:text="${pelicula.getAgeRating()}"></span></p>
+
+    <p th:replace="~{/fragments/volver :: volverInicio}"></p>
+</article>
+</body>
+</html>

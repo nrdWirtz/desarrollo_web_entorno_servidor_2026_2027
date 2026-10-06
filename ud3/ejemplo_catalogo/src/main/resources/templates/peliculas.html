@@ -9,20 +9,31 @@
     <!-- Introducimos fragmento  declarado en templates/fragments/volver.html-->
     <div th:replace="~{fragments/volver :: volverInicio}"></div>
     <h1>Listado de películas</h1>
+    <!-- Introducimos enlace que envían RequestParam -->
+    <div class="filtros">
+        <a class="btn" th:href="@{/movies}">Ver todas</a>
+        <a class="btn" th:href="@{/movies(calificacion='TP')}">Todos los públicos</a>
+        <a class="btn" th:href="@{/movies(calificacion='+16')}">+16</a>
+    </div>
+
     <div th:if="${peliculas.size() > 0}">
         <table>
             <thead>
                 <tr>
                     <th>Nombre</th>
-                    <th>Director</th>
-                    <th>Año</th>
+                    <th>Calificación</th>
+                    <th> - </th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="peli: ${peliculas}">
                     <td th:text="${peli.name}"></td>
-                    <td th:text="${peli.director}"></td>
-                    <td th:text="${peli.year}"></td>
+                    <td th:text="${peli.ageRating}"></td>
+
+                    <!-- Construimos una URL con PathVariable la url sería por ejemplo:
+                            http//localhost:8080/movie/1
+                     -->
+                    <td><a th:href="@{/movies/{id}(id=${peli.id})}">Ver detalle</a></td>
                 </tr>
             </tbody>
         </table>

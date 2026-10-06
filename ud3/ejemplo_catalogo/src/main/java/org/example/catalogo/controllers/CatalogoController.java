@@ -5,9 +5,12 @@ import org.example.catalogo.model.TvShow;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class CatalogoController {
@@ -26,9 +29,15 @@ public class CatalogoController {
     }
 
     @GetMapping("/movies")
-    public String paginaPeliculas(Model model){
-        model.addAttribute("peliculas", movieList);
+    public String paginaPeliculas(@RequestParam(required = false) String calificacion, Model model){
+        model.addAttribute("peliculas", filtrarPeliculas(calificacion));
         return "peliculas";
+    }
+
+    @GetMapping("/movies/{id}")
+    public String verDetallePelicula(@PathVariable int id, Model model){
+        model.addAttribute("pelicula", findMovieById(id));
+        return "detallePelicula";
     }
 
     @GetMapping("/series")
@@ -38,13 +47,41 @@ public class CatalogoController {
     }
 
     private void inicializarPeliculas(){
-        movieList.add(new Movie("Resident Evil","Héctor", 2026));
-        movieList.add(new Movie("La vida de Brian", "Guillermo", 1979));
-        movieList.add(new Movie("El show de Truman", "Dani", 1960));
+        movieList.add(new Movie(1, "Jurassic Park", "Steven Spielberg", 1993, "+12"));
+        movieList.add(new Movie(2, "Star Wars", "George Lucas", 1977, "TP"));
+        movieList.add(new Movie(3, "Terminator", "James Cameron", 1984, "+16"));
+        movieList.add(new Movie(4, "El Rey León", "Roger Allers", 1994, "TP"));
+        movieList.add(new Movie(5, "Toy Story", "John Lasseter", 1995, "TP"));
+        movieList.add(new Movie(6, "Pulp Fiction", "Quentin Tarantino", 1994, "+18"));
+        movieList.add(new Movie(7, "Matrix", "Lana y Lilly Wachowski", 1999, "+16"));
+        movieList.add(new Movie(8, "Gladiator", "Ridley Scott", 2000, "+16"));
+        movieList.add(new Movie(9, "Titanic", "James Cameron", 1997, "+12"));
+        movieList.add(new Movie(10, "Regreso al futuro", "Robert Zemeckis", 1985, "+7"));
+        movieList.add(new Movie(11, "Shrek", "Andrew Adamson", 2001, "TP"));
+        movieList.add(new Movie(12, "El Padrino", "Francis Ford Coppola", 1972, "+18"));
     }
 
     private void inicializarSeries(){
-        tvShowList.add(new TvShow("La que se avecina", 15));
-        tvShowList.add(new TvShow("The Simpsons", 34));
+        tvShowList.add(new TvShow(1, "La que se avecina", 15));
+        tvShowList.add(new TvShow(2, "The Simpsons", 34));
+    }
+
+    private Movie findMovieById(int id){
+        Movie movie = null;
+
+        for (Movie p : movieList) {
+            if (p.getId() == id) {
+                movie = p;
+                break;
+            }
+        }
+        return movie;
+    }
+
+    private List<Movie> filtrarPeliculas(String calificacion) {
+        return movieList.stream()
+                .filter(m -> calificacion == null || calificacion.isBlank()
+                        || m.getAgeRating().equalsIgnoreCase(calificacion))
+                .collect(Collectors.toList());
     }
 }
