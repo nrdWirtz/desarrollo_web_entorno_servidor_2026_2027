@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form method="post" th:action="${editar} == true ? @{/editar}: @{/registro}" th:object="${usuario}">
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" name="nombre" th:field="*{nombre}"/>
+        <label for="correo">Email</label>
+        <input type="email" id="correo" name="correo" th:field="*{correo}"/>
+        <button type="submit">Registrar usuario</button>
+    </form>
+</body>
+</html>
