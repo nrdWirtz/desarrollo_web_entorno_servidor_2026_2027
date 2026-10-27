@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mis tareas</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body class="bg-body-tertiary">
+<main class="container py-4">
+    <header class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h2 mb-0">Mis tareas</h1>
+        <a class="btn btn-primary" th:href="@{/tareas/nueva}">Nueva tarea</a>
+    </header>
+
+    <p class="alert alert-success" th:if="${mensaje}" th:text="${mensaje}"></p>
+    <p class="alert alert-danger" th:if="${error}" th:text="${error}"></p>
+
+    <p class="alert alert-light border" th:if="${#lists.isEmpty(tareas)}">
+        Todavía no hay tareas.
+    </p>
+    <div class="card shadow-sm" th:unless="${#lists.isEmpty(tareas)}">
+        <div class="table-responsive">
+            <table class="table table-striped align-middle mb-0">
+                <thead class="table-light">
+                <tr>
+                    <th>Título</th><th>Prioridad</th><th>Fecha límite</th>
+                    <th>Estado</th><th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="t : ${tareas}"
+                    th:classappend="${t.completada} ? 'table-secondary' : ''">
+                    <td th:text="${t.titulo}"></td>
+                    <td th:text="${t.prioridad}"></td>
+                    <td th:text="${#temporals.format(t.fechaLimite, 'dd/MM/yyyy')}"></td>
+                    <td th:text="${t.completada} ? 'Completada' : 'Pendiente'"></td>
+                    <td>
+                        <div class="d-flex gap-2">
+                            <form th:unless="${t.completada}"
+                                  th:action="@{/tareas/{id}/completar(id=${t.id})}"
+                                  method="post">
+                                <button class="btn btn-success btn-sm"
+                                        type="submit">Completar</button>
+                            </form>
+                            <form th:action="@{/tareas/{id}/eliminar(id=${t.id})}"
+                                  method="post">
+                                <button class="btn btn-outline-danger btn-sm"
+                                        type="submit">Eliminar</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+</body>
+</html>
