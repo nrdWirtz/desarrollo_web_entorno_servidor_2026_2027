@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Empleado</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container my-4" style="max-width: 600px;">
+
+    <!-- Este mismo formulario sirve para dar de alta y para editar un empleado.
+         Título de ejemplo: puede ser «Nuevo empleado» o «Editar empleado» según el caso. -->
+    <h1 class="h3 mb-4">Nuevo empleado</h1>
+
+    <!-- MENSAJES
+         Aquí deben mostrarse los errores. Estructura de ejemplo:
+
+         <div class="alert alert-danger">El salario no puede ser inferior a 18000 euros.</div>
+    -->
+
+    <form>
+        <!-- Solo en edición. El identificador se muestra, pero no se puede modificar -->
+        <div class="mb-3">
+            <label for="id" class="form-label">Identificador</label>
+            <input type="text" class="form-control" id="id" readonly>
+        </div>
+
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="nombre">
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email">
+        </div>
+
+        <div class="mb-3">
+            <label for="salario" class="form-label">Salario</label>
+            <input type="number" step="0.01" class="form-control" id="salario">
+        </div>
+
+        <div class="mb-3">
+            <label for="genero" class="form-label">Género</label>
+            <select class="form-select" id="genero">
+                <option value="MASCULINO">MASCULINO</option>
+                <option value="FEMENINO">FEMENINO</option>
+            </select>
+        </div>
+
+        <div class="form-check mb-4">
+            <input type="checkbox" class="form-check-input" id="activo">
+            <label for="activo" class="form-check-label">Activo</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="#" class="btn btn-outline-secondary">Cancelar</a>
+    </form>
+
+</div>
+</body>
+</html>
