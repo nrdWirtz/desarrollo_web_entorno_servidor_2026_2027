@@ -1,0 +1,28 @@
+body {
+    background-color: #f4f6f9;
+    color: #243247;
+}
+
+.navbar {
+    background-color: #233b63;
+}
+
+.contenedor {
+    max-width: 1050px;
+}
+
+.table > :not(caption) > * > * {
+    padding: 1rem;
+}
+
+.acciones {
+    min-width: 220px;
+}
+
+.acciones .btn {
+    min-width: 90px;
+}
+
+.badge {
+    font-weight: 500;
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="|${libro.titulo} — Mini biblioteca|">Detalle | Mini biblioteca</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+<body>
+<nav class="navbar navbar-dark">
+    <div class="container contenedor">
+        <a class="navbar-brand fw-semibold" th:href="@{/listado}">Mini biblioteca</a>
+        <span class="navbar-text text-white-50">Ficha del libro</span>
+    </div>
+</nav>
+
+<main class="container contenedor py-4 py-md-5">
+    <a th:href="@{/listado}" class="btn btn-outline-secondary mb-4">Volver al listado</a>
+
+    <article class="card border-0 shadow-sm">
+        <div class="card-body p-4 p-md-5">
+            <p class="text-secondary small mb-2" th:text="|Libro n.º ${libro.id}|">Libro n.º 1</p>
+            <h1 class="h2 mb-4" th:text="${libro.titulo}">El principito</h1>
+
+            <dl class="row mb-0">
+                <dt class="col-sm-3 mb-2">Autor</dt>
+                <dd class="col-sm-9 mb-4" th:text="${libro.autor}">Antoine de Saint-Exupéry</dd>
+
+                <dt class="col-sm-3 mb-2">Número de páginas</dt>
+                <dd class="col-sm-9 mb-4" th:text="${libro.paginas}">96</dd>
+
+                <dt class="col-sm-3 mb-2">Estado</dt>
+                <dd class="col-sm-9 mb-0">
+                    <span class="badge rounded-pill"
+                          th:classappend="${libro.prestado} ? 'text-bg-warning' : 'text-bg-success'"
+                          th:text="${libro.prestado} ? 'Prestado' : 'Disponible'">Disponible</span>
+                </dd>
+            </dl>
+        </div>
+    </article>
+</main>
+</body>
+</html>
