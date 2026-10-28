@@ -5,6 +5,8 @@ import com.dwes.todo.model.Prioridad;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.dwes.todo.repository.TareaRepository;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,9 +24,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/tareas")
 public class TareaController {
+
+    TareaRepository tareaRepository;
+
+    public TareaController(TareaRepository tareaRepository) {
+        this.tareaRepository = tareaRepository;
+    }
+
     private static final int MAX_ALTAS_PENDIENTES = 3;
-    private final List<Tarea> tareas = new ArrayList<>();
-    private long ultimoId = 0;
+
 
 
     /**
@@ -32,7 +40,7 @@ public class TareaController {
      */
     @GetMapping
     public String listar(Model model) {
-        model.addAttribute("tareas", tareas);
+        model.addAttribute("tareas", tareaRepository.findAll());
         return "tareas/lista";
     }
 
@@ -62,8 +70,7 @@ public class TareaController {
             model.addAttribute("prioridades", Prioridad.values());
             return "tareas/formulario";
         }
-        nueva.setId(++ultimoId);
-        tareas.add(nueva);
+        tareaRepository.save(nueva);
         flash.addFlashAttribute("mensaje", "Tarea creada: " + nueva.getTitulo());
         return "redirect:/tareas";
     }
@@ -74,13 +81,14 @@ public class TareaController {
     @PostMapping("/{id}/completar")
     public String completar(@PathVariable("id") Long id,
                             RedirectAttributes flash) {
-        Tarea tarea = buscarPorId(id);
+        Tarea tarea = tareaRepository.findById(id);
         if (tarea == null) {
             flash.addFlashAttribute("error", "No existe la tarea con id " + id);
         } else if (tarea.isCompletada()) {
             flash.addFlashAttribute("error", "La tarea ya estaba completada");
         } else {
             tarea.setCompletada(true);
+            tareaRepository.save(tarea);
             flash.addFlashAttribute("mensaje", "Tarea completada");
         }
         return "redirect:/tareas";
@@ -92,11 +100,11 @@ public class TareaController {
     @PostMapping("/{id}/eliminar")
     public String eliminar(@PathVariable("id") Long id,
                            RedirectAttributes flash) {
-        Tarea tarea = buscarPorId(id);
+        Tarea tarea = tareaRepository.findById(id);
         if (tarea == null) {
             flash.addFlashAttribute("error", "No existe la tarea con id " + id);
         } else {
-            tareas.remove(tarea);
+            tareaRepository.deleteById(id);
             flash.addFlashAttribute("mensaje", "Tarea eliminada");
         }
         return "redirect:/tareas";
@@ -113,7 +121,7 @@ public class TareaController {
         }
 
         int altasPendientes = 0;
-        for (Tarea existente : tareas) {
+        for (Tarea existente : tareaRepository.findAll()) {
             if (!existente.isCompletada()) {
                 if (existente.getTitulo().equalsIgnoreCase(nueva.getTitulo())) {
                     errores.reject("regla.negocio",
@@ -135,16 +143,6 @@ public class TareaController {
         return true;
     }
 
-    /**
-     * Método interno para localizar una tarea en la lista por su identificador.
-     */
-    private Tarea buscarPorId(Long id) {
-        for (Tarea tarea : tareas) {
-            if (tarea.getId().equals(id)) {
-                return tarea;
-            }
-        }
-        return null;
-    }
+
 
 }
