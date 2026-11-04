@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <p th:if="${error}" th:text="${error}"></p>
+    <p th:if="${success}" th:text="${success}"></p>
+
+    <form method="post" th:action="@{/animal/nuevo}" th:object="${nuevoAnimal}">
+        <label for="nombre">Nombre del animal</label>
+        <br/>
+        <input type="text" id="nombre" th:field="*{nombre}"/>
+        <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}">
+        </span>
+        <br/>
+        <button type="submit">Crear nuevo</button>
+    </form>
+    <h1>Listado de animales</h1>
+    <ul th:each="a : ${animalesLista}">
+        <li th:text="${a.nombre}"></li>
+    </ul>
+</body>
+</html>
