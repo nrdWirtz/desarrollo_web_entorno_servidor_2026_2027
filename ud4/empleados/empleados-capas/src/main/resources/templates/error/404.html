@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Empleado no encontrado</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body class="bg-light">
+<header class="bg-dark text-white py-3 mb-4">
+    <div class="container">
+        <a class="text-white text-decoration-none fs-5 fw-semibold" th:href="@{/empleados}">
+            Gestión de empleados
+        </a>
+    </div>
+</header>
+
+<main class="container py-4">
+    <div class="bg-white border rounded p-4">
+        <p class="text-secondary mb-2">Error 404</p>
+        <h1 class="h2 mb-3">Empleado no encontrado</h1>
+        <p th:text="${mensaje}"></p>
+        <a th:href="@{/empleados}" class="btn btn-primary">Volver al listado</a>
+    </div>
+</main>
+</body>
+</html>

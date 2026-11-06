@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${edicion} ? 'Editar empleado' : 'Nuevo empleado'"></title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body class="bg-light">
+<header class="bg-dark text-white py-3 mb-4">
+    <div class="container">
+        <a class="text-white text-decoration-none fs-5 fw-semibold" th:href="@{/empleados}">
+            Gestión de empleados
+        </a>
+    </div>
+</header>
+
+<main class="container pb-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <h1 class="h2 mb-4" th:text="${edicion} ? 'Editar empleado' : 'Nuevo empleado'"></h1>
+
+            <form method="post" th:object="${empleado}" class="bg-white border rounded p-4"
+                  th:action="${edicion} ? @{/empleados/{id}(id=${empleado.id})} : @{/empleados}">
+
+                <div th:if="${error}" class="alert alert-danger" role="alert" th:text="${error}"></div>
+
+                <div th:if="${edicion}" class="mb-3">
+                    <label for="identificador" class="form-label">Identificador</label>
+                    <!-- No tiene name ni th:field: no se envía como dato del empleado. -->
+                    <input type="text" id="identificador" th:value="*{id}"
+                           class="form-control bg-light" readonly>
+                </div>
+
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" id="nombre" th:field="*{nombre}" class="form-control"
+                           th:errorclass="is-invalid">
+                    <div id="nombre-error" class="invalid-feedback" th:errors="*{nombre}"></div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" id="email" th:field="*{email}" class="form-control"
+                           th:errorclass="is-invalid">
+                    <div id="email-error" class="invalid-feedback" th:errors="*{email}"></div>
+                </div>
+
+                <div class="mb-4">
+                    <label for="salario" class="form-label">Salario anual (€)</label>
+                    <input type="number" id="salario" th:field="*{salario}" class="form-control"
+                           th:errorclass="is-invalid" required>
+                    <div id="salario-ayuda" class="form-text">El salario mínimo es de 18.000 € anuales.</div>
+                    <div id="salario-error" class="invalid-feedback" th:errors="*{salario}"></div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary"
+                            th:text="${edicion} ? 'Guardar cambios' : 'Crear empleado'"></button>
+                    <a th:href="@{/empleados}" class="btn btn-outline-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+</body>
+</html>
