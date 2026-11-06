@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <p>Listado de plantas</p>
+    <p th:if="${success}" th:text="${success}" style="color:green"></p>
+    <p th:if="${error}" th:text="${error}" style="color:red"></p>
+    <table th:if="${plantas.size() >0 }">
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Ejemplares</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="p : ${plantas}">
+            <td th:text="${p.nombre}"></td>
+            <td th:text="${p.ejemplares}"></td>
+            <td>
+                <form th:action ="@{/planta/{id}/cosechar(id=${p.id})}" method="POST">
+                    <button type="submit">Cosechar</button>
+                </form>
+            </td>
+    </table>
+    <a th:href="@{/planta/nuevo}">Crear nueva</a>
+</body>
+</html>

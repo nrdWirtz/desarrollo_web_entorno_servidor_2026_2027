@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form method="post" th:action="@{/planta/nuevo}" th:object="${plantaDTO}">
+        <label for="nombre">Nombre</label>
+        <input id="nombre" type="text" th:field="*{nombre}"/>
+        <div class="invalid-feedback" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+        <br/>
+        <label for="ejemplares">Ejemplares</label>
+        <input id="ejemplares" type="number" th:field="*{ejemplares}"/>
+        <div class="invalid-feedback" th:if="${#fields.hasErrors('ejemplares')}" th:errors="*{ejemplares}"></div>
+        <br/>
+        <button type="submit">Crear nueva</button>
+    </form>
+</body>
+</html>
