@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario de alumno</title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+<body>
+    <h1 th:text="${alumno.id == null} ? 'Nuevo alumno' : 'Editar alumno'">Nuevo alumno</h1>
+
+    <form method="post"
+          th:action="${alumno.id == null} ? @{/alumnos/nuevo}
+                                          : @{/alumnos/{id}/editar(id=${alumno.id})}"
+          th:object="${alumno}">
+
+        <div class="campo">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" th:field="*{nombre}"
+                   th:classappend="${#fields.hasErrors('nombre')} ? 'campo-error'">
+            <span class="texto-error" th:if="${#fields.hasErrors('nombre')}"
+                  th:errors="*{nombre}"></span>
+        </div>
+
+        <div class="campo">
+            <label for="edad">Edad</label>
+            <input type="number" id="edad" th:field="*{edad}"
+                   th:classappend="${#fields.hasErrors('edad')} ? 'campo-error'">
+            <span class="texto-error" th:if="${#fields.hasErrors('edad')}"
+                  th:errors="*{edad}"></span>
+        </div>
+
+        <div class="campo">
+            <label for="nombreUsuario">Nombre de usuario</label>
+            <input type="text" id="nombreUsuario" th:field="*{nombreUsuario}"
+                   th:classappend="${#fields.hasErrors('nombreUsuario')} ? 'campo-error'">
+            <span class="texto-error" th:if="${#fields.hasErrors('nombreUsuario')}" th:errors="*{nombreUsuario}"></span>
+        </div>
+
+        <button type="submit">Guardar</button>
+        <a th:href="@{/alumnos}">Cancelar</a>
+    </form>
+</body>
+</html>

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>No encontrado</title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+<body>
+    <h1>Vaya, ha ocurrido algo!</h1>
+    <p class="mensaje-error" th:text="${mensajeNotFound}">Puede que el alumno ya no exista.</p>
+    <p><a th:href="@{/alumnos}">Volver al listado</a></p>
+</body>
+</html>
