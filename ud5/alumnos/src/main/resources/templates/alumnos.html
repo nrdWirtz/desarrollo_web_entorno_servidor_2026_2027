@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Alumnos</title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+<body>
+    <h1>Alumnos</h1>
+    <p>
+        <a th:href="@{/}">Volver al inicio</a> |
+        <a th:href="@{/alumnos/nuevo}">Nuevo alumno</a>
+    </p>
+
+    <p class="aviso" th:if="${aviso}" th:text="${aviso}"></p>
+
+    <form class="filtro" method="get" th:action="@{/alumnos}">
+        <label for="filtroNombre">El nombre contiene</label>
+        <input type="text" id="filtroNombre" name="filtroNombre" th:value="${filtroNombre}">
+        <button type="submit">Buscar</button>
+    </form>
+
+    <table th:unless="${alumnos.isEmpty()}">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="a : ${alumnos}" th:classappend="${!a.activo} ? 'inactivo'">
+                <td th:text="${a.id}"></td>
+                <td th:text="${a.nombre}"></td>
+                <td th:text="${a.activo} ? 'Activo' : 'Inactivo'"></td>
+                <td class="acciones">
+                    <a th:href="@{/alumnos/{id}(id=${a.id})}">Ver</a>
+                    <a th:href="@{/alumnos/{id}/editar(id=${a.id})}">Editar</a>
+                    <form method="post" th:action="@{/alumnos/{id}/activar(id=${a.id})}">
+                        <button type="submit">Activar</button>
+                    </form>
+                    <form method="post" th:action="@{/alumnos/{id}/desactivar(id=${a.id})}">
+                        <button type="submit">Desactivar</button>
+                    </form>
+                    <form method="post" th:action="@{/alumnos/{id}/eliminar(id=${a.id})}">
+                        <button type="submit">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p th:if="${alumnos.isEmpty()}">No hay alumnos que mostrar.</p>
+</body>
+</html>

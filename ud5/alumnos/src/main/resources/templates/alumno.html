@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ficha del alumno</title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+<body>
+    <h1 th:text="${alumno.nombre}">Nombre</h1>
+    <p><a th:href="@{/alumnos}">Volver al listado</a></p>
+
+    <dl class="ficha">
+        <dt>Id</dt>
+        <dd th:text="${alumno.id}"></dd>
+        <dt>Nombre</dt>
+        <dd th:text="${alumno.nombre}"></dd>
+        <dt>Edad</dt>
+        <dd th:text="${alumno.edad}"></dd>
+        <dt>Nombre de usuario</dt>
+        <dd th:text="${alumno.nombreUsuario}"></dd>
+        <dt>Estado</dt>
+        <dd th:text="${alumno.activo} ? 'Activo' : 'Inactivo'"></dd>
+    </dl>
+</body>
+</html>
